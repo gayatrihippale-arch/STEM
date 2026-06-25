@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simulate experiments in Science, Mathematics, and Coding inside the Virtual Labs.">
+  <title>Virtual STEM Labs | STEMQuest Rural</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    .lab-tab-btn {
+      padding: 12px 28px;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      border: 1px solid var(--border-color);
+      border-bottom: none;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      transition: var(--transition);
+    }
+
+    .lab-tab-btn.active {
+      background: var(--bg-secondary);
+      color: var(--primary);
+      border-top: 3px solid var(--primary);
+      position: relative;
+      z-index: 5;
+    }
+
+    .lab-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--card-shadow);
+      min-height: 450px;
+    }
+
+    /* Lab Interactive Utilities */
+    .beaker-container {
+      width: 140px;
+      height: 180px;
+      border: 5px solid var(--text-primary);
+      border-top: none;
+      border-radius: 0 0 30px 30px;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .beaker-liquid {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      background: #38bdf8;
+      transition: background-color 0.8s ease, height 0.5s ease;
+    }
+
+    .ph-btn {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-tertiary);
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .ph-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .slider-input {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+      background: var(--border-color);
+    }
+
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Header Injection -->
+  <header id="header"></header>
+
+  <!-- Title section -->
+  <section class="section" style="padding-top:140px; padding-bottom:40px; background:var(--bg-tertiary); border-bottom:1px solid var(--border-color);">
+    <div class="container animate-fade-in-up">
+      <div style="text-align:center;">
+        <h1 style="font-size:2.75rem; margin-bottom:10px;">Virtual STEM Labs</h1>
+        <p style="max-width:600px; margin:0 auto; color:var(--text-secondary);">Simulate science and math principles directly from your browser. Ideal for schools without physical equipment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Labs Module Tabs & Panels -->
+  <section class="section">
+    <div class="container">
+      <div style="display:flex; flex-wrap:wrap; border-bottom:1px solid var(--border-color); margin-bottom:-1px;">
+        <button class="lab-tab-btn active" data-tab="physics">⚡ Physics: Circuit Lab</button>
+        <button class="lab-tab-btn" data-tab="chemistry">🧪 Chemistry: pH Scale</button>
+        <button class="lab-tab-btn" data-tab="math">📈 Mathematics: Graph Plotter</button>
+      </div>
+
+      <!-- PHYSICS TAB -->
+      <div class="lab-panel" id="physics-lab">
+        <div class="grid-2">
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <h2>Electricity Circuit Experiment</h2>
+            <p style="color:var(--text-secondary);">Learn about electric circuits, open and closed status, and switch flows. Click the switch handle to toggle the circuit state and observe the bulb.</p>
+            
+            <div style="background:var(--bg-tertiary); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+              <h4 style="margin-bottom:10px;">Experiment Status</h4>
+              <p>State: <strong id="circuit-state-text" style="color:var(--error);">Open (No Current)</strong></p>
+              <p>Bulb Power: <strong id="bulb-power-text" style="color:var(--text-muted);">OFF</strong></p>
+            </div>
+
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-primary" id="toggle-switch-btn">Toggle Switch</button>
+              <button class="btn btn-secondary btn-sm" onclick="resetCircuit()">Reset</button>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:center; background:var(--bg-tertiary); border-radius:var(--radius-lg); border:1px solid var(--border-color); padding:30px; min-height:300px;">
+            <!-- SVG Circuit builder -->
+            <svg viewBox="0 0 300 200" width="100%" height="200" style="max-width:280px;">
+              <!-- Wire Paths -->
+              <path id="wire-left" d="M 50 100 L 50 50 L 250 50 L 250 80" stroke="#64748b" stroke-width="6" fill="none" stroke-linecap="round"/>
+              <path id="wire-right" d="M 250 120 L 250 150 L 50 150 L 50 100" stroke="#64748b" stroke-width="6" fill="none" stroke-linecap="round"/>
+              
+              <!-- Battery (left wire) -->
+              <g transform="translate(130, 40)">
+                <rect x="0" y="0" width="40" height="20" fill="#1e293b" rx="2" stroke="var(--border-color)" stroke-width="2"/>
+                <rect x="40" y="5" width="5" height="10" fill="#10b981"/>
+                <text x="20" y="15" fill="white" font-size="12" font-weight="bold" text-anchor="middle">🔋</text>
+              </g>
+
+              <!-- Switch contacts -->
+              <circle cx="50" cy="100" r="6" fill="#475569" />
+              <circle cx="80" cy="100" r="6" fill="#475569" />
+              
+              <!-- Switch blade -->
+              <line id="switch-blade" x1="50" y1="100" x2="70" y2="70" stroke="#ef4444" stroke-width="6" stroke-linecap="round" style="transition: transform 0.4s ease; transform-origin: 50px 100px;"/>
+              
+              <!-- Bulb -->
+              <g transform="translate(230, 80)">
+                <!-- Base -->
+                <rect x="10" y="25" width="20" height="15" fill="#94a3b8" rx="2"/>
+                <!-- Glow ring -->
+                <circle id="bulb-glow" cx="20" cy="15" r="22" fill="yellow" opacity="0" style="transition: opacity 0.5s ease; filter: blur(5px);"/>
+                <!-- Glass bulb -->
+                <circle id="bulb-glass" cx="20" cy="15" r="18" fill="#e2e8f0" stroke="#64748b" stroke-width="3" style="transition: fill 0.5s ease;"/>
+                <path d="M 12 18 Q 20 5 28 18" stroke="#94a3b8" stroke-width="2" fill="none"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHEMISTRY TAB -->
+      <div class="lab-panel" id="chemistry-lab" style="display:none;">
+        <div class="grid-2">
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <h2>Acid & Base pH Scale</h2>
+            <p style="color:var(--text-secondary);">Explore pH properties. Select a liquid droplet tool below to drop chemical values into the beaker and watch the pH indicator change color.</p>
+            
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="ph-btn" data-ph="2" data-color="#ef4444" data-name="Lemon Juice">Lemon Juice (pH 2)</button>
+              <button class="ph-btn" data-ph="7" data-color="#10b981" data-name="Pure Water">Pure Water (pH 7)</button>
+              <button class="ph-btn" data-ph="10" data-color="#3b82f6" data-name="Soap Solution">Soap Solution (pH 10)</button>
+              <button class="ph-btn" data-ph="13" data-color="#a855f7" data-name="Liquid Bleach">Bleach (pH 13)</button>
+            </div>
+
+            <div style="background:var(--bg-tertiary); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <h4 style="margin-bottom:5px;">Solution: <span id="ph-solution-name" style="color:var(--primary);">None</span></h4>
+                <p>pH Value: <strong id="ph-val-text" style="font-size:1.5rem; color:var(--text-muted);">7.0</strong></p>
+              </div>
+              <div id="ph-category-badge" style="padding:6px 16px; border-radius:var(--radius-full); font-weight:600; font-size:0.85rem; background:var(--border-color); color:var(--text-secondary);">
+                Neutral
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg-tertiary); border-radius:var(--radius-lg); border:1px solid var(--border-color); padding:30px;">
+            <div class="beaker-container">
+              <div class="beaker-liquid" id="beaker-liquid"></div>
+            </div>
+            
+            <!-- Dynamic slider matching current pH -->
+            <div style="width:100%; max-width:240px; margin-top:20px; text-align:center;">
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:5px; color:var(--text-muted);">
+                <span>0 (Acidic)</span>
+                <span>7 (Neutral)</span>
+                <span>14 (Alkaline)</span>
+              </div>
+              <input type="range" min="0" max="14" value="7" class="slider-input" id="ph-slider" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MATHEMATICS TAB -->
+      <div class="lab-panel" id="math-lab" style="display:none;">
+        <div class="grid-2">
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <h2>Linear Graph Plotter</h2>
+            <p style="color:var(--text-secondary);">Visualize algebraic coordinate lines. Adjust the sliders below to change the Slope (m) and Intercept (c) for the line equation: <strong style="color:var(--primary);">y = mx + c</strong></p>
+            
+            <div style="display:flex; flex-direction:column; gap:15px; background:var(--bg-tertiary); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+              <div>
+                <label style="display:flex; justify-content:space-between; font-size:0.9rem; font-weight:600; margin-bottom:5px;">
+                  <span>Slope (m): <span id="m-val" style="color:var(--primary);">1.0</span></span>
+                </label>
+                <input type="range" min="-3" max="3" step="0.1" value="1" class="slider-input" id="slope-slider">
+              </div>
+
+              <div>
+                <label style="display:flex; justify-content:space-between; font-size:0.9rem; font-weight:600; margin-bottom:5px;">
+                  <span>Intercept (c): <span id="c-val" style="color:var(--secondary);">0</span></span>
+                </label>
+                <input type="range" min="-50" max="50" step="5" value="0" class="slider-input" id="intercept-slider">
+              </div>
+            </div>
+
+            <div style="font-size:1.15rem; font-family:var(--font-heading); font-weight:700; text-align:center;">
+              Line Equation: <span id="equation-text" style="color:var(--primary);">y = 1.0x + 0</span>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:center; background:var(--bg-tertiary); border-radius:var(--radius-lg); border:1px solid var(--border-color); padding:30px; min-height:300px;">
+            <!-- Coordinate system SVG -->
+            <svg id="coordinate-grid" viewBox="0 0 200 200" width="100%" height="200" style="max-width:240px; background:var(--bg-secondary); border:1px solid var(--border-color);">
+              <!-- Grid Lines -->
+              <line x1="100" y1="0" x2="100" y2="200" stroke="#94a3b8" stroke-width="2"/>
+              <line x1="0" y1="100" x2="200" y2="100" stroke="#94a3b8" stroke-width="2"/>
+              
+              <!-- Subgrids -->
+              <line x1="50" y1="0" x2="50" y2="200" stroke="var(--border-color)" stroke-width="0.5"/>
+              <line x1="150" y1="0" x2="150" y2="200" stroke="var(--border-color)" stroke-width="0.5"/>
+              <line x1="0" y1="50" x2="200" y2="50" stroke="var(--border-color)" stroke-width="0.5"/>
+              <line x1="0" y1="150" x2="200" y2="150" stroke="var(--border-color)" stroke-width="0.5"/>
+
+              <!-- Axis Marks -->
+              <text x="105" y="15" fill="var(--text-muted)" font-size="8">y</text>
+              <text x="185" y="95" fill="var(--text-muted)" font-size="8">x</text>
+
+              <!-- Plotting Line -->
+              <line id="math-line" x1="0" y1="200" x2="200" y2="0" stroke="var(--primary)" stroke-width="3" style="transition: all 0.1s ease;"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer id="footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/gamification.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // Tab switching logic
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabBtns = document.querySelectorAll(".lab-tab-btn");
+      const panels = document.querySelectorAll(".lab-panel");
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          tabBtns.forEach(b => b.classList.remove("active"));
+          panels.forEach(p => p.style.display = "none");
+
+          btn.classList.add("active");
+          const tabId = btn.getAttribute("data-tab");
+          document.getElementById(`${tabId}-lab`).style.display = "block";
+        });
+      });
+
+      // PHYSICS CIRCUIT LAB LOGIC
+      const toggleSwitchBtn = document.getElementById("toggle-switch-btn");
+      const switchBlade = document.getElementById("switch-blade");
+      const wireLeft = document.getElementById("wire-left");
+      const wireRight = document.getElementById("wire-right");
+      const bulbGlow = document.getElementById("bulb-glow");
+      const bulbGlass = document.getElementById("bulb-glass");
+      const circuitStateText = document.getElementById("circuit-state-text");
+      const bulbPowerText = document.getElementById("bulb-power-text");
+
+      let isCircuitClosed = false;
+
+      toggleSwitchBtn.addEventListener("click", () => {
+        isCircuitClosed = !isCircuitClosed;
+        
+        if (isCircuitClosed) {
+          // Close switch (rotate blade down to touch contacts)
+          switchBlade.style.transform = "rotate(30deg)";
+          wireLeft.setAttribute("stroke", "#fbbf24");
+          wireRight.setAttribute("stroke", "#fbbf24");
+          bulbGlow.style.opacity = "0.8";
+          bulbGlass.style.fill = "#fef08a";
+          circuitStateText.textContent = "Closed (Current Flowing)";
+          circuitStateText.style.color = "var(--success)";
+          bulbPowerText.textContent = "ON (Glow)";
+          bulbPowerText.style.color = "var(--success)";
+
+          if (window.gamification) {
+            window.gamification.addXP(20);
+            window.gamification.showToast("⚡ Circuit Completed! +20 XP", "success");
+          }
+        } else {
+          // Open switch
+          resetCircuit();
+        }
+      });
+
+      window.resetCircuit = () => {
+        isCircuitClosed = false;
+        switchBlade.style.transform = "rotate(0deg)";
+        wireLeft.setAttribute("stroke", "#64748b");
+        wireRight.setAttribute("stroke", "#64748b");
+        bulbGlow.style.opacity = "0";
+        bulbGlass.style.fill = "#e2e8f0";
+        circuitStateText.textContent = "Open (No Current)";
+        circuitStateText.style.color = "var(--error)";
+        bulbPowerText.textContent = "OFF";
+        bulbPowerText.style.color = "var(--text-muted)";
+      };
+
+      // CHEMISTRY PH LAB LOGIC
+      const phBtns = document.querySelectorAll(".ph-btn");
+      const beakerLiquid = document.getElementById("beaker-liquid");
+      const phValText = document.getElementById("ph-val-text");
+      const phSlider = document.getElementById("ph-slider");
+      const phSolutionName = document.getElementById("ph-solution-name");
+      const phCategoryBadge = document.getElementById("ph-category-badge");
+      
+      const usedLiquids = new Set();
+
+      phBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const ph = parseFloat(btn.getAttribute("data-ph"));
+          const color = btn.getAttribute("data-color");
+          const name = btn.getAttribute("data-name");
+
+          beakerLiquid.style.backgroundColor = color;
+          phValText.textContent = ph.toFixed(1);
+          phValText.style.color = color;
+          phSlider.value = ph;
+          phSolutionName.textContent = name;
+          phSolutionName.style.color = color;
+
+          let category = "Neutral";
+          if (ph < 7) {
+            category = "Acidic";
+            phCategoryBadge.style.background = "rgba(239, 68, 68, 0.15)";
+            phCategoryBadge.style.color = "var(--error)";
+          } else if (ph > 7) {
+            category = "Alkaline / Base";
+            phCategoryBadge.style.background = "rgba(168, 85, 247, 0.15)";
+            phCategoryBadge.style.color = "#a855f7";
+          } else {
+            phCategoryBadge.style.background = "rgba(16, 185, 129, 0.15)";
+            phCategoryBadge.style.color = "var(--success)";
+          }
+          phCategoryBadge.textContent = category;
+
+          usedLiquids.add(name);
+          if (usedLiquids.size === 4 && window.gamification) {
+            window.gamification.unlockBadge("sci_explorer");
+            window.gamification.addXP(30);
+            window.gamification.showToast("🧪 Chemistry Explorer! Tested all solutions. +30 XP", "success");
+          }
+        });
+      });
+
+      // MATH LAB LINE PLOTTER LOGIC
+      const slopeSlider = document.getElementById("slope-slider");
+      const interceptSlider = document.getElementById("intercept-slider");
+      const mValText = document.getElementById("m-val");
+      const cValText = document.getElementById("c-val");
+      const equationText = document.getElementById("equation-text");
+      const mathLine = document.getElementById("math-line");
+
+      const updateGraph = () => {
+        const m = parseFloat(slopeSlider.value);
+        const c = parseFloat(interceptSlider.value);
+
+        mValText.textContent = m.toFixed(1);
+        cValText.textContent = c;
+
+        let sign = c >= 0 ? "+" : "-";
+        equationText.textContent = `y = ${m.toFixed(1)}x ${sign} ${Math.abs(c)}`;
+
+        // Calculate line endpoints in SVG coordinate scale (0-200 grid scale)
+        // Center is (100, 100). Axis scale: 1 unit is 2px. Intercept is in pixels relative to center
+        // equation: y = m*x + c
+        // SVG y goes down, Cartesian y goes up.
+        // So Cartesian coordinate (x, y) maps to SVG (100 + x, 100 - y)
+        // Let x1 = -100 Cartesian => SVG X = 0. Cartesian Y = m*(-100) + c => SVG Y = 100 - (-100*m + c) = 100 + 100*m - c
+        // Let x2 = 100 Cartesian => SVG X = 200. Cartesian Y = m*(100) + c => SVG Y = 100 - (100*m + c) = 100 - 100*m - c
+        
+        // We scale m factor slightly for visual fit: let 1 unit of m correspond to a coordinate slope of 1
+        const scaleFactor = 0.8; 
+        const y1 = 100 + (100 * m * scaleFactor) - c;
+        const y2 = 100 - (100 * m * scaleFactor) - c;
+
+        mathLine.setAttribute("x1", "0");
+        mathLine.setAttribute("y1", y1.toString());
+        mathLine.setAttribute("x2", "200");
+        mathLine.setAttribute("y2", y2.toString());
+      };
+
+      slopeSlider.addEventListener("input", updateGraph);
+      interceptSlider.addEventListener("input", updateGraph);
+
+      // Initial graph plot
+      updateGraph();
+    });
+  </script>
+</body>
+</html>

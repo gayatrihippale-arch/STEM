@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Embark on gamified learning paths in Science, Math, Technology, and Engineering. Complete quests and level up!">
+  <title>STEM Missions | STEMQuest Rural</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <style>
+    .filter-btn {
+      padding: 10px 24px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-heading);
+      transition: var(--transition);
+    }
+    
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .quest-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    /* Modal styles for Quiz Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+      animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      transition: var(--transition);
+      z-index: 10;
+    }
+
+    .close-modal:hover {
+      color: var(--error);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Header Injection -->
+  <header id="header"></header>
+
+  <!-- Title section -->
+  <section class="section" style="padding-top:140px; padding-bottom:40px; background:var(--bg-tertiary); border-bottom:1px solid var(--border-color);">
+    <div class="container animate-fade-in-up">
+      <div style="text-align:center;">
+        <h1 style="font-size:2.75rem; margin-bottom:10px;">Select Your Learning Quest</h1>
+        <p style="max-width:600px; margin:0 auto; color:var(--text-secondary);">Filter quests by your school level. Complete quizzes to earn experience points (XP) and unlock badges!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter and Quest Grid -->
+  <section class="section">
+    <div class="container">
+      <!-- Class Level Filter -->
+      <div style="display:flex; justify-content:center; gap:12px; margin-bottom:40px; flex-wrap:wrap;">
+        <button class="filter-btn active" data-class="all">All Grades</button>
+        <button class="filter-btn" data-class="6-8">Class 6–8</button>
+        <button class="filter-btn" data-class="9-10">Class 9–10</button>
+        <button class="filter-btn" data-class="11-12">Class 11–12</button>
+      </div>
+
+      <!-- Quests Grid -->
+      <div class="quest-grid" id="quests-container">
+        <!-- Quests will be injected dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Overlay Modal -->
+  <div class="modal-overlay" id="quiz-modal">
+    <div class="modal-content glass-panel" style="padding:40px; border-radius:var(--radius-lg); border:1px solid var(--border-color); background:var(--bg-secondary);">
+      <button class="close-modal" id="close-quiz-btn">&times;</button>
+      <div id="quiz-modal-body">
+        <!-- Loaded Quiz content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer id="footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/gamification.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/quiz.js"></script>
+
+  <script>
+    // Quests Metadata Database
+    const QUESTS_DATA = [
+      {
+        id: "quest_fractions",
+        quizId: "q1",
+        title: "Fractions & Heat Adventure",
+        classRange: "6-8",
+        category: "math",
+        desc: "Calculate solar panel coverages and cooker colors. Combines fractions and physics principles.",
+        xp: 50,
+        coins: 10,
+        icon: "📐",
+        difficulty: "Beginner"
+      },
+      {
+        id: "quest_algebra",
+        quizId: "q2",
+        title: "Algebraic Crop Harvesting",
+        classRange: "9-10",
+        category: "math",
+        desc: "Use equations to find village farm dimensions, total crop space, and seed planning needs.",
+        xp: 60,
+        coins: 15,
+        icon: "🌱",
+        difficulty: "Intermediate"
+      },
+      {
+        id: "quest_coding_basics",
+        quizId: "q3",
+        title: "Coding Ninja Loop Challenges",
+        classRange: "9-10",
+        category: "technology",
+        desc: "Solve logic questions using code repeat blocks and conditional statements.",
+        xp: 60,
+        coins: 15,
+        icon: "🥷",
+        difficulty: "Intermediate"
+      },
+      {
+        id: "quest_iot_farming",
+        quizId: "q4",
+        title: "IoT Smart Soil & Sensors",
+        classRange: "11-12",
+        category: "engineering",
+        desc: "Design and validate microcontrollers (Arduino) and moisture sensors for automated crop watering.",
+        xp: 80,
+        coins: 20,
+        icon: "📶",
+        difficulty: "Advanced"
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("quests-container");
+      const filters = document.querySelectorAll("[data-class]");
+      const quizModal = document.getElementById("quiz-modal");
+      const closeQuizBtn = document.getElementById("close-quiz-btn");
+
+      // Auto-filter based on search params
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialClass = urlParams.get("class");
+      if (initialClass) {
+        filters.forEach(f => {
+          if (f.getAttribute("data-class") === initialClass) {
+            filters.forEach(btn => btn.classList.remove("active"));
+            f.classList.add("active");
+            renderQuests(initialClass);
+          }
+        });
+      } else {
+        renderQuests("all");
+      }
+
+      // Add filter click events
+      filters.forEach(btn => {
+        btn.addEventListener("click", () => {
+          filters.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderQuests(btn.getAttribute("data-class"));
+        });
+      });
+
+      // Close modal
+      closeQuizBtn.addEventListener("click", () => {
+        quizModal.style.display = "none";
+      });
+
+      function renderQuests(classFilter) {
+        let list = QUESTS_DATA;
+        if (classFilter !== "all") {
+          list = QUESTS_DATA.filter(q => q.classRange === classFilter);
+        }
+
+        if (list.length === 0) {
+          container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-secondary);">More quests for this grade are launching soon! Select other levels.</div>`;
+          return;
+        }
+
+        // Get completed quizzes list to label buttons correctly
+        const userState = window.gamification ? window.gamification.state : { completedQuizzes: [] };
+
+        container.innerHTML = list.map(q => {
+          const isCompleted = userState.completedQuizzes.includes(q.quizId);
+          const btnText = isCompleted ? "Quiz Completed" : "Start Quest";
+          const btnClass = isCompleted ? "btn-secondary" : "btn-primary";
+
+          return `
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; min-height:280px;">
+              <div>
+                <span class="card-badge" style="background:var(--bg-tertiary); color:var(--text-secondary); border:1px solid var(--border-color);">${q.difficulty}</span>
+                <div class="card-icon" style="font-size:1.75rem;">${q.icon}</div>
+                <h3 style="margin-bottom:8px; font-size:1.2rem;">${q.title}</h3>
+                <p style="font-size:0.88rem; color:var(--text-secondary); margin-bottom:15px;">${q.desc}</p>
+              </div>
+
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; font-size:0.85rem; font-weight:600;">
+                  <span style="color:var(--primary);">⚡ +${q.xp} XP</span>
+                  <span style="color:var(--accent);">🪙 +${q.coins} Coins</span>
+                  <span style="color:var(--text-muted);">Class ${q.classRange}</span>
+                </div>
+                <button class="btn ${btnClass} btn-sm" onclick="launchQuest('${q.quizId}')" style="width:100%;">${btnText}</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      window.launchQuest = (quizId) => {
+        quizModal.style.display = "flex";
+        if (window.quizManager) {
+          window.quizManager.startQuiz(quizId, 'quiz-modal-body');
+        }
+      };
+    });
+  </script>
+</body>
+</html>

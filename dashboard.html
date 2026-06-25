@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View your progress, level status, earned badges, streaks, and school leaderboards.">
+  <title>Student Dashboard | STEMQuest Rural</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr;
+      gap: 30px;
+    }
+
+    .widget-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .badge-icon-item {
+      font-size: 2.25rem;
+      width: 60px;
+      height: 60px;
+      background: var(--bg-tertiary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--border-color);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .badge-icon-item.locked {
+      opacity: 0.35;
+      filter: grayscale(1);
+    }
+
+    .badge-icon-item:hover {
+      transform: scale(1.1);
+      border-color: var(--primary);
+    }
+
+    .leaderboard-tabs {
+      display: flex;
+      background: var(--bg-tertiary);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+
+    .tab-btn {
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: var(--font-heading);
+      transition: var(--transition);
+    }
+
+    .tab-btn.active {
+      background: var(--bg-secondary);
+      color: var(--primary);
+      box-shadow: var(--card-shadow);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Header Injection -->
+  <header id="header"></header>
+
+  <!-- Title Section -->
+  <section class="section" style="padding-top:140px; padding-bottom:40px; background:var(--bg-tertiary); border-bottom:1px solid var(--border-color);">
+    <div class="container animate-fade-in-up">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+        <div>
+          <h1 style="font-size:2.5rem; margin-bottom:5px;">Welcome Back, Student Explorer!</h1>
+          <p style="color:var(--text-secondary);">Track your XP, review unlocked badges, and inspect your school ranking.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="confirmReset()" style="border-color:var(--error); color:var(--error);">Reset Progress</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Content -->
+  <section class="section">
+    <div class="container">
+      <div class="dashboard-grid">
+        
+        <!-- Left Sidebar: Profile Details & Stats -->
+        <div class="widget-panel">
+          <!-- Profile Card -->
+          <div class="card glass-panel" style="text-align:center; padding:35px 25px;">
+            <div style="font-size:4rem; margin-bottom:12px;">🧑‍🚀</div>
+            <h3 id="user-name-display" style="font-size:1.35rem; margin-bottom:5px;">Ramesh Rathod</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">Class 8 • Jila Parishad High School<br>Shirpur Village, Dhule District</p>
+            
+            <div style="display:flex; justify-content:center; gap:24px; text-align:center; border-top:1px solid var(--border-color); padding-top:20px;">
+              <div>
+                <span style="font-size:1.5rem;">🔥</span>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Streak</div>
+                <strong id="user-streak-display" style="font-size:1.15rem; color:#ef4444;">0 Days</strong>
+              </div>
+              <div style="border-left:1px solid var(--border-color);"></div>
+              <div>
+                <span style="font-size:1.5rem;">🪙</span>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Coins</div>
+                <strong id="user-coins-display" style="font-size:1.15rem; color:var(--accent);">0</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- XP Gauge / Level progress -->
+          <div class="card glass-panel" style="padding:25px;">
+            <h4 style="margin-bottom:15px; font-size:1.05rem;">Level Progression</h4>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span id="user-level-badge" style="background:var(--primary-light); color:var(--primary); padding:4px 12px; border-radius:var(--radius-full); font-weight:700; font-size:0.8rem;">Level 1</span>
+              <strong id="user-xp-display" style="font-size:0.95rem; color:var(--text-secondary);">120 / 200 XP</strong>
+            </div>
+
+            <!-- XP progress bar -->
+            <div style="width:100%; height:12px; background:var(--bg-tertiary); border-radius:6px; overflow:hidden; margin-bottom:15px; border:1px solid var(--border-color);">
+              <div id="user-xp-bar" style="width:60%; height:100%; background:var(--gradient-stem); border-radius:6px; transition:width 0.5s ease;"></div>
+            </div>
+            
+            <p id="user-level-name-display" style="font-size:0.85rem; color:var(--text-muted); text-align:center;">Title: Beginner Explorer</p>
+          </div>
+        </div>
+
+        <!-- Right Main Panel: Badges & Leaderboard -->
+        <div class="widget-panel">
+          
+          <!-- Badges Cabinet -->
+          <div class="card glass-panel">
+            <h3 style="font-size:1.25rem; margin-bottom:15px;">Unlocked Badges</h3>
+            <div style="display:flex; gap:16px; flex-wrap:wrap;" id="badges-cabinet-container">
+              <!-- Badges icons will be placed here dynamically -->
+            </div>
+          </div>
+
+          <!-- Leaderboard Panel -->
+          <div class="card glass-panel" style="padding:30px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:20px; gap:15px;">
+              <h3 style="font-size:1.25rem;">Live Leaderboard</h3>
+              
+              <!-- Tab filters -->
+              <div class="leaderboard-tabs">
+                <button class="tab-btn" data-filter="school">School</button>
+                <button class="tab-btn" data-filter="village">Village</button>
+                <button class="tab-btn" data-filter="district">District</button>
+                <button class="tab-btn active" data-filter="state">Overall</button>
+              </div>
+            </div>
+
+            <div id="leaderboard-container">
+              <!-- Injected by leaderboard.js -->
+            </div>
+          </div>
+
+          <!-- Recommended Quests -->
+          <div class="card glass-panel">
+            <h3 style="font-size:1.25rem; margin-bottom:15px;">Recommended Next Quests</h3>
+            <div style="display:flex; flex-direction:column; gap:12px;" id="recommended-quests-list">
+              <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-tertiary); padding:15px; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                <div>
+                  <h4 style="font-size:0.95rem; margin-bottom:3px;">📐 Fractions & Heat Adventure</h4>
+                  <p style="font-size:0.75rem; color:var(--text-secondary);">Combine math and heat cooker physics.</p>
+                </div>
+                <a href="missions.html" class="btn btn-primary btn-sm" style="padding:6px 14px; font-size:0.8rem;">Start Quest</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer id="footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/gamification.js"></script>
+  <script src="js/leaderboard.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Load initial State values
+      const userState = window.gamification ? window.gamification.state : null;
+      if (userState) {
+        updateDashboardUI(userState);
+      }
+
+      // Initialize Leaderboard
+      if (window.leaderboardManager) {
+        window.leaderboardManager.init('leaderboard-container');
+      }
+
+      // Listen for updates from quizzes/actions
+      window.addEventListener("gamificationStateChanged", (e) => {
+        updateDashboardUI(e.detail);
+        if (window.leaderboardManager) {
+          window.leaderboardManager.render();
+        }
+      });
+
+      // Tab selector events
+      const tabs = document.querySelectorAll("[data-filter]");
+      tabs.forEach(t => {
+        t.addEventListener("click", () => {
+          tabs.forEach(b => b.classList.remove("active"));
+          t.classList.add("active");
+          if (window.leaderboardManager) {
+            window.leaderboardManager.setFilter(t.getAttribute("data-filter"));
+          }
+        });
+      });
+    });
+
+    function updateDashboardUI(state) {
+      if (!state) return;
+
+      // Update basic fields
+      document.getElementById("user-streak-display").textContent = `${state.streak} Days`;
+      document.getElementById("user-coins-display").textContent = state.coins.toLocaleString();
+      document.getElementById("user-level-badge").textContent = `Level ${state.level}`;
+      document.getElementById("user-level-name-display").textContent = `Title: ${state.levelName}`;
+      
+      // Calculate XP thresholds for progress bar
+      // Level 1: 0-199 (needs 200 XP to level up)
+      // Level 2: 200-499 (needs 300 XP)
+      // Level 3: 500-899 (needs 400 XP)
+      // Level 4: 900-1399 (needs 500 XP)
+      // Level 5: 1400-1999 (needs 600 XP)
+      // Level 6: 2000+ (max)
+      let minVal = 0;
+      let maxVal = 200;
+      
+      if (state.level === 2) { minVal = 200; maxVal = 500; }
+      else if (state.level === 3) { minVal = 500; maxVal = 900; }
+      else if (state.level === 4) { minVal = 900; maxVal = 1400; }
+      else if (state.level === 5) { minVal = 1400; maxVal = 2000; }
+      else if (state.level >= 6) { minVal = 2000; maxVal = state.xp > 2000 ? state.xp + 100 : 2100; }
+
+      const totalDiff = maxVal - minVal;
+      const userDiff = state.xp - minVal;
+      const progressPct = Math.min(100, Math.max(0, (userDiff / totalDiff) * 100));
+
+      document.getElementById("user-xp-display").textContent = `${state.xp} / ${maxVal} XP`;
+      document.getElementById("user-xp-bar").style.width = `${progressPct}%`;
+
+      // Render Badges Cabinet
+      const container = document.getElementById("badges-cabinet-container");
+      if (container && window.gamification) {
+        // Find badge list definitions from gamification script directly
+        const badgesDefs = [
+          { id: "sci_explorer", name: "Science Explorer", desc: "Completed your first Science Challenge", icon: "🔬" },
+          { id: "math_master", name: "Math Master", desc: "Got a perfect score in a Mathematics Quiz", icon: "📐" },
+          { id: "code_ninja", name: "Coding Ninja", desc: "Completed coding playground quest", icon: "🥷" },
+          { id: "innovator_champ", name: "Innovation Leader", desc: "Submitted an idea to Rural Innovation Hub", icon: "💡" },
+          { id: "stem_hero", name: "STEM Hero", desc: "Reached 1,500+ XP", icon: "🦸" }
+        ];
+
+        container.innerHTML = badgesDefs.map(b => {
+          const isUnlocked = state.badges.includes(b.id);
+          const lockedClass = isUnlocked ? "" : "locked";
+          const tooltip = isUnlocked ? `${b.name}: ${b.desc}` : `${b.name} (LOCKED): ${b.desc}`;
+          
+          return `
+            <div class="badge-icon-item ${lockedClass}" title="${tooltip}" style="cursor:help;">
+              <span>${b.icon}</span>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function confirmReset() {
+      if (confirm("Are you sure you want to reset all your progress, XP, coins, and badges? This cannot be undone.")) {
+        if (window.gamification) {
+          window.gamification.resetProgress();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

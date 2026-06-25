@@ -1,0 +1,98 @@
+[
+  {
+    "id": "q1",
+    "category": "science",
+    "classRange": "6-8",
+    "title": "Fractions Adventure & Solar Heat",
+    "questions": [
+      {
+        "id": "q1_1",
+        "question": "If you divide a solar panel into 4 equal parts and cover 3 parts, what fraction of the panel is exposed to the sun?",
+        "options": ["1/4", "1/2", "3/4", "2/3"],
+        "correct": 0,
+        "explanation": "Since 3 out of 4 parts are covered, only 1 part is left exposed. The fraction is 1/4."
+      },
+      {
+        "id": "q1_2",
+        "question": "Which color absorbs the most solar heat and would make a solar cooker heat up fastest?",
+        "options": ["White", "Silver", "Black", "Green"],
+        "correct": 2,
+        "explanation": "Black surfaces absorb almost all wavelengths of light and convert them to heat, making it perfect for solar cookers!"
+      }
+    ],
+    "xpReward": 50,
+    "coinsReward": 10
+  },
+  {
+    "id": "q2",
+    "category": "math",
+    "classRange": "9-10",
+    "title": "Algebraic Farming",
+    "questions": [
+      {
+        "id": "q2_1",
+        "question": "A village farm has a rectangular shape with length 2x and width x. If the area is 200 square meters, what is the length?",
+        "options": ["10m", "20m", "15m", "30m"],
+        "correct": 1,
+        "explanation": "Area = 2x * x = 2x^2 = 200 => x^2 = 100 => x = 10m. The length is 2x = 20m."
+      },
+      {
+        "id": "q2_2",
+        "question": "If you need 3 seeds per square meter, how many seeds are required for a 200 square meter farm?",
+        "options": ["300", "400", "600", "800"],
+        "correct": 2,
+        "explanation": "Total seeds = Area * density = 200 * 3 = 600 seeds."
+      }
+    ],
+    "xpReward": 60,
+    "coinsReward": 15
+  },
+  {
+    "id": "q3",
+    "category": "technology",
+    "classRange": "9-10",
+    "title": "Coding Basics",
+    "questions": [
+      {
+        "id": "q3_1",
+        "question": "In programming, which block is used to repeat an action a specific number of times?",
+        "options": ["If-Else block", "Variable block", "Repeat/Loop block", "Print block"],
+        "correct": 2,
+        "explanation": "A Loop or Repeat block allows us to run the same code multiple times without rewriting it."
+      },
+      {
+        "id": "q3_2",
+        "question": "What will be the output of a program that sets X = 5, then sets X = X + 3, and prints X?",
+        "options": ["5", "8", "3", "15"],
+        "correct": 1,
+        "explanation": "Initial X is 5. Adding 3 makes it 5 + 3 = 8. So X is now 8."
+      }
+    ],
+    "xpReward": 60,
+    "coinsReward": 15
+  },
+  {
+    "id": "q4",
+    "category": "engineering",
+    "classRange": "11-12",
+    "title": "IoT & Smart Farming Concepts",
+    "questions": [
+      {
+        "id": "q4_1",
+        "question": "Which sensor would you use to measure the dryness of soil in an automated irrigation system?",
+        "options": ["Ultrasonic Sensor", "Soil Moisture Sensor", "Barometric Pressure Sensor", "LDR Light Sensor"],
+        "correct": 1,
+        "explanation": "A Soil Moisture Sensor measures the volumetric water content in soil, helping automate watering."
+      },
+      {
+        "id": "q4_2",
+        "question": "What is the primary role of a microcontroller (like Arduino) in a smart farming device?",
+        "options": ["To supply high electric power", "To store heavy databases", "To read sensor data and control actuators based on logic", "To display high definition videos"],
+        "correct": 2,
+        "explanation": "Microcontrollers act as the brain of the IoT system: reading inputs from sensors and deciding actions for pumps/actuators."
+      }
+    ],
+    "xpReward": 80,
+    "coinsReward": 20
+  }
+]

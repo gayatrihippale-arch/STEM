@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Participate in monthly STEM challenges and the annual Innovation Olympiad. Win scholarships and kits!">
+  <title>STEM Competitions | STEMQuest Rural</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <!-- Dynamic Header Injection -->
+  <header id="header"></header>
+
+  <!-- Title section -->
+  <section class="section" style="padding-top:140px; padding-bottom:40px; background:var(--bg-tertiary); border-bottom:1px solid var(--border-color);">
+    <div class="container animate-fade-in-up">
+      <div style="text-align:center;">
+        <h1 style="font-size:2.75rem; margin-bottom:10px;">STEM Challenges & Olympiad</h1>
+        <p style="max-width:600px; margin:0 auto; color:var(--text-secondary);">Put your STEM knowledge to the test by building local solutions. Win kits, certificates, and scholarships!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Olympiad Banner and Monthly Challenges -->
+  <section class="section">
+    <div class="container">
+      <div class="card glass-panel" style="background:var(--gradient-stem); border:none; padding:45px; color:white; border-radius:var(--radius-lg); margin-bottom:60px; display:flex; flex-direction:column; gap:20px; position:relative; overflow:hidden;">
+        <!-- Background circular glow -->
+        <div style="position:absolute; right:-50px; bottom:-50px; width:220px; height:220px; border-radius:50%; background:rgba(255,255,255,0.1); pointer-events:none;"></div>
+        
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.2); padding:6px 16px; border-radius:var(--radius-full); font-weight:700; font-size:0.85rem; width:fit-content;">
+          🏆 ANNUAL COMPETITION
+        </div>
+        <h2 style="font-size:2.25rem; font-weight:800; color:white;">National STEM Innovation Olympiad 2026</h2>
+        <p style="font-size:1.05rem; max-width:650px; opacity:0.95;">An annual event open to Class 6–12 students from rural schools across India. Build projects addressing irrigation, solar energy, or village sanitation.</p>
+        
+        <div style="display:flex; gap:30px; flex-wrap:wrap; font-size:0.95rem; margin:10px 0;">
+          <span>🏅 <strong>First Prize:</strong> ₹25,000 Scholarship + STEM Kits</span>
+          <span>📜 <strong>Participation:</strong> Digital Certificates for All</span>
+          <span>📅 <strong>Deadline:</strong> Nov 30, 2026</span>
+        </div>
+        
+        <button class="btn btn-secondary btn-sm" onclick="alert('Registrations will open shortly! Keep completing quests to prepare.')" style="width:fit-content; background:white; color:var(--primary); font-weight:700; border:none;">Pre-Register Now</button>
+      </div>
+
+      <!-- Monthly Challenges -->
+      <div style="text-align:center; margin-bottom:40px;">
+        <h2>Active Monthly Challenges</h2>
+        <p style="color:var(--text-secondary); max-width:550px; margin:0 auto;">Take part in hands-on building challenges at home or school using cardboard, scrap wire, or recyclables.</p>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:60px;">
+        <!-- Challenge 1 -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; min-height:330px;">
+          <div>
+            <div class="card-icon" style="background:rgba(245, 158, 11, 0.1); color:var(--accent);">🌾</div>
+            <h3 style="margin-bottom:8px;">Smart Canal Irrigation</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:15px;">Design a scale model showing how canal water gates can open and close automatically based on crop dryness levels.</p>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:600; margin-bottom:15px;">
+              <span>⚡ +150 XP</span>
+              <span style="color:var(--accent);">🪙 +50 Coins</span>
+            </div>
+            <a href="#submit-concept-form" class="btn btn-secondary btn-sm" style="width:100%;">Submit Entry</a>
+          </div>
+        </div>
+
+        <!-- Challenge 2 -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; min-height:330px; border-color:var(--primary);">
+          <div>
+            <div class="card-icon" style="background:var(--primary-light); color:var(--primary);">💨</div>
+            <h3 style="margin-bottom:8px;">Recycled Windmill</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:15px;">Build a simple windmill using cardboard sheets and plastic bottles that generates enough electricity to glow a tiny LED bulb.</p>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:600; margin-bottom:15px;">
+              <span>⚡ +200 XP</span>
+              <span style="color:var(--accent);">🪙 +75 Coins</span>
+            </div>
+            <a href="#submit-concept-form" class="btn btn-primary btn-sm" style="width:100%;">Submit Entry</a>
+          </div>
+        </div>
+
+        <!-- Challenge 3 -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; min-height:330px;">
+          <div>
+            <div class="card-icon" style="background:rgba(16, 185, 129, 0.1); color:var(--success);">☀️</div>
+            <h3 style="margin-bottom:8px;">Reflector Solar Cooker</h3>
+            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:15px;">Create a parabolic shape cooker lined with shiny aluminum foil to boil water using direct heat focus rays from the sun.</p>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:600; margin-bottom:15px;">
+              <span>⚡ +150 XP</span>
+              <span style="color:var(--accent);">🪙 +50 Coins</span>
+            </div>
+            <a href="#submit-concept-form" class="btn btn-secondary btn-sm" style="width:100%;">Submit Entry</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submission Portal -->
+      <div id="submit-concept-form" style="max-width:600px; margin: 0 auto;">
+        <div class="card glass-panel" style="padding:40px;">
+          <h3 style="font-size:1.5rem; text-align:center; margin-bottom:10px;">Concept Submission Portal</h3>
+          <p style="text-align:center; color:var(--text-secondary); font-size:0.9rem; margin-bottom:25px;">Submit details of your project model or conceptual diagrams here to earn evaluation feedback and XP points.</p>
+          
+          <form id="project-upload-form" onsubmit="handleProjectSubmit(event)" style="display:flex; flex-direction:column; gap:16px;">
+            <div>
+              <label style="display:block; font-size:0.9rem; font-weight:600; margin-bottom:5px; color:var(--text-primary);">Project Name</label>
+              <input type="text" id="proj-name" required placeholder="e.g. Cardboard Solar Reflect cooker" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border-color); background:var(--bg-tertiary); color:var(--text-primary); outline:none;">
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.9rem; font-weight:600; margin-bottom:5px; color:var(--text-primary);">Challenge Category</label>
+              <select id="proj-category" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border-color); background:var(--bg-tertiary); color:var(--text-primary); outline:none;">
+                <option value="wind">Recycled Windmill</option>
+                <option value="irrigation">Smart Canal Irrigation</option>
+                <option value="solar">Reflector Solar Cooker</option>
+                <option value="other">General Rural Innovation Idea</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="display:block; font-size:0.9rem; font-weight:600; margin-bottom:5px; color:var(--text-primary);">Explain how it works (Description)</label>
+              <textarea id="proj-desc" required placeholder="Write a short summary explaining how you built it, materials used, and educational principles involved..." rows="4" style="width:100%; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border-color); background:var(--bg-tertiary); color:var(--text-primary); outline:none; font-family:inherit;"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Concept & Claim XP</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer id="footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/gamification.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    function handleProjectSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById("proj-name").value;
+      const category = document.getElementById("proj-category").value;
+      const desc = document.getElementById("proj-desc").value;
+
+      if (!name || !desc) return;
+
+      if (window.gamification) {
+        window.gamification.addXP(150);
+        window.gamification.addCoins(50);
+        window.gamification.unlockBadge("innovator_champ");
+        window.gamification.showToast("Project successfully submitted! Earned 150 XP, 50 Coins and Innovation Leader Badge!", "success");
+      }
+
+      // Reset form
+      document.getElementById("project-upload-form").reset();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "s1",
+    "name": "Savita Patil",
+    "class": "11",
+    "school": "Jila Parishad High School",
+    "village": "Shirpur",
+    "district": "Dhule",
+    "xp": 1450,
+    "level": 4,
+    "streak": 12,
+    "badges": ["Science Explorer", "Innovation Leader", "STEM Hero"]
+  },
+  {
+    "id": "s2",
+    "name": "Ramesh Rathod",
+    "class": "8",
+    "school": "Netaji Subhash School",
+    "village": "Shirpur",
+    "district": "Dhule",
+    "xp": 980,
+    "level": 2,
+    "streak": 5,
+    "badges": ["Math Master", "Science Explorer"]
+  },
+  {
+    "id": "s3",
+    "name": "Amit Kumar",
+    "class": "9",
+    "school": "Model School Baramati",
+    "village": "Baramati",
+    "district": "Pune",
+    "xp": 1250,
+    "level": 3,
+    "streak": 8,
+    "badges": ["Coding Champion", "Science Explorer"]
+  },
+  {
+    "id": "s4",
+    "name": "Pooja Sharma",
+    "class": "10",
+    "school": "Jila Parishad High School",
+    "village": "Shirpur",
+    "district": "Dhule",
+    "xp": 1150,
+    "level": 3,
+    "streak": 15,
+    "badges": ["Math Master", "Coding Champion"]
+  },
+  {
+    "id": "s5",
+    "name": "Ganesh Kadam",
+    "class": "7",
+    "school": "Netaji Subhash School",
+    "village": "Shirpur",
+    "district": "Dhule",
+    "xp": 820,
+    "level": 2,
+    "streak": 3,
+    "badges": ["Science Explorer"]
+  },
+  {
+    "id": "s6",
+    "name": "Neha Joshi",
+    "class": "12",
+    "school": "Model School Baramati",
+    "village": "Baramati",
+    "district": "Pune",
+    "xp": 1550,
+    "level": 5,
+    "streak": 22,
+    "badges": ["STEM Hero", "Math Master", "Innovation Leader", "Coding Champion"]
+  },
+  {
+    "id": "s7",
+    "name": "Rahul Deshmukh",
+    "class": "6",
+    "school": "Gram Panchayat School",
+    "village": "Koregaon",
+    "district": "Satara",
+    "xp": 600,
+    "level": 1,
+    "streak": 4,
+    "badges": ["Science Explorer"]
+  },
+  {
+    "id": "s8",
+    "name": "Jyoti Patil",
+    "class": "8",
+    "school": "Gram Panchayat School",
+    "village": "Koregaon",
+    "district": "Satara",
+    "xp": 950,
+    "level": 2,
+    "streak": 7,
+    "badges": ["Math Master"]
+  }
+]
